@@ -19,7 +19,6 @@ because all implementations are available in header files.
 
 ## Usage
 
-
 ## Build samples and unit tests
 
 Makefile of libsatop will provide followings on your environments

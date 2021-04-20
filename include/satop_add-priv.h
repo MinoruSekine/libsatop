@@ -39,7 +39,7 @@ namespace saturated {
 template <typename T>
 constexpr T add(T x, T y) {
   using limits = std::numeric_limits<T>;
-  return ((x < limits::max() - y) ? (x + y) : limits::max());
+  return ((x < limits::max() - y) ? static_cast<T>(x + y) : limits::max());
 }
 
 }  // namespace saturated
