@@ -44,6 +44,4 @@ constexpr T add(T x, T y) {
 
 }  // namespace saturated
 
-#undef SATOP_INTERNAL
-
 #endif  // INCLUDE_SATOP_ADD_PRIV_H_
