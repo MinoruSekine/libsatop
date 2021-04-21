@@ -16,17 +16,29 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with libsatop.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef INCLUDE_SATOP_H_
-#define INCLUDE_SATOP_H_
+#ifndef INCLUDE_SATOP_SUB_PRIV_H_
+#define INCLUDE_SATOP_SUB_PRIV_H_
 
-#include <string>
-#include <type_traits>
+#ifndef SATOP_INTERNAL
+#error Do not include this file directly, libsatop.h instead.
+#endif
 
-#define SATOP_INTERNAL
+namespace saturated {
 
-#include "satop_add-priv.h"
-#include "satop_sub-priv.h"
+/// Subtract 2 values with saturation.
+///
+/// @tparam T Type of arguments and the return value
+///
+/// @param x Subtract from this value
+/// @param y Subtract this value
+///
+/// @return If subtraction results causes underflow, returns min of T.
+///         If no underflow, returns x - y.
+template <typename T>
+constexpr T sub(T x, T y) {
+  return ((x > y) ? static_cast<T>(x - y) : static_cast<T>(0));
+}
 
-#undef SATOP_INTERNAL
+}  // namespace saturated
 
-#endif  // INCLUDE_SATOP_H_
+#endif  // INCLUDE_SATOP_SUB_PRIV_H_
