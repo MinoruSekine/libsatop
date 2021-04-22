@@ -16,32 +16,29 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with libsatop.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef INCLUDE_SATOP_ADD_PRIV_H_
-#define INCLUDE_SATOP_ADD_PRIV_H_
+#ifndef INCLUDE_SATOP_SUB_PRIV_H_
+#define INCLUDE_SATOP_SUB_PRIV_H_
 
 #ifndef SATOP_INTERNAL
 #error Do not include this file directly, libsatop.h instead.
 #endif
 
-#include <limits>
-
 namespace saturated {
 
-/// Add 2 values with saturation.
+/// Subtract 2 values with saturation.
 ///
 /// @tparam T Type of arguments and the return value
 ///
-/// @param x A value to add
-/// @param y A value to add
+/// @param x Subtract from this value
+/// @param y Subtract this value
 ///
-/// @return If addition results causes overflow, returns max of T.
-///         If no overflow, returns x + y.
+/// @return If subtraction results causes underflow, returns min of T.
+///         If no underflow, returns x - y.
 template <typename T>
-constexpr T add(T x, T y) {
-  using limits = std::numeric_limits<T>;
-  return ((x < limits::max() - y) ? static_cast<T>(x + y) : limits::max());
+constexpr T sub(T x, T y) {
+  return ((x > y) ? static_cast<T>(x - y) : static_cast<T>(0));
 }
 
 }  // namespace saturated
 
-#endif  // INCLUDE_SATOP_ADD_PRIV_H_
+#endif  // INCLUDE_SATOP_SUB_PRIV_H_
