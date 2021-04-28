@@ -24,20 +24,20 @@
 #include "satop.h"
 
 template <typename T>
-class AddTest
+class AddOverflowTest
     : public ::testing::Test {
  protected:
   using Limits = std::numeric_limits<T>;
 };
 
-using MyTypes = ::testing::Types<uint8_t, uint16_t, uint32_t>;
+using TypesForOverflowTests = ::testing::Types<uint8_t, uint16_t, uint32_t>;
 // This strange 3rd argument omission is quick hack
 // for warning with Google Test Framework.
 // See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
 // cppcheck-suppress syntaxError
-TYPED_TEST_SUITE(AddTest, MyTypes, );  // NOLINT
+TYPED_TEST_SUITE(AddOverflowTest, TypesForOverflowTests, );  // NOLINT
 
-TYPED_TEST(AddTest, Saturated) {
+TYPED_TEST(AddOverflowTest, Overflow) {
   constexpr const auto kMaxValue = TestFixture::Limits::max();
   constexpr const auto kMinValue = TestFixture::Limits::min();
   EXPECT_EQ(kMaxValue, saturated::add(kMaxValue, kMinValue));
@@ -45,7 +45,7 @@ TYPED_TEST(AddTest, Saturated) {
   EXPECT_EQ(kMaxValue, saturated::add(kMaxValue, kMaxValue));
 }
 
-TYPED_TEST(AddTest, NotSaturated) {
+TYPED_TEST(AddOverflowTest, NotOverflow) {
   constexpr const auto x = TestFixture::Limits::max() - 2;
   constexpr const decltype(x) y = 1;
   EXPECT_EQ(x + y, saturated::add(x, y));
