@@ -38,11 +38,11 @@ using MyTypes = ::testing::Types<uint8_t, uint16_t, uint32_t>;
 TYPED_TEST_SUITE(AddTest, MyTypes, );  // NOLINT
 
 TYPED_TEST(AddTest, Saturated) {
-  constexpr const auto max_value = TestFixture::Limits::max();
-  constexpr const auto min_value = TestFixture::Limits::min();
-  EXPECT_EQ(max_value, saturated::add(max_value, min_value));
-  EXPECT_EQ(max_value, saturated::add(min_value, max_value));
-  EXPECT_EQ(max_value, saturated::add(max_value, max_value));
+  constexpr const auto kMaxValue = TestFixture::Limits::max();
+  constexpr const auto kMinValue = TestFixture::Limits::min();
+  EXPECT_EQ(kMaxValue, saturated::add(kMaxValue, kMinValue));
+  EXPECT_EQ(kMaxValue, saturated::add(kMinValue, kMaxValue));
+  EXPECT_EQ(kMaxValue, saturated::add(kMaxValue, kMaxValue));
 }
 
 TYPED_TEST(AddTest, NotSaturated) {
