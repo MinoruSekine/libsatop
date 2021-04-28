@@ -27,6 +27,33 @@
 
 namespace saturated {
 
+namespace impl {
+
+template <typename T>
+constexpr T is_add_overflow(T x, T y) {
+  return ((x > 0)
+          && (y > 0)
+          && (x >= std::numeric_limits<T>::max() - y));
+}
+
+template <typename T>
+constexpr auto is_add_underflow(T x, T y)
+    -> typename std::enable_if<std::is_unsigned<T>::value, T>::type {
+  return static_cast<void>(x), static_cast<void>(y), false;
+}
+
+template <typename T>
+constexpr auto is_add_underflow(T x, T y)
+    -> typename std::enable_if<std::is_signed<T>::value, T>::type {
+  // return (x < std::numeric_limits<T>::min() - y);
+  return ((x < 0)
+          && (y < 0)
+          && ((x < std::numeric_limits<T>::min() - y)
+              || (y < std::numeric_limits<T>::min() - x)));
+}
+
+}  // namespace impl
+
 /// Add 2 values with saturation.
 ///
 /// @tparam T Type of arguments and the return value
@@ -39,7 +66,11 @@ namespace saturated {
 template <typename T>
 constexpr T add(T x, T y) {
   using limits = std::numeric_limits<T>;
-  return ((x < limits::max() - y) ? static_cast<T>(x + y) : limits::max());
+  return (impl::is_add_overflow(x, y)
+          ? limits::max()
+          : (impl::is_add_underflow(x, y)
+             ? limits::min()
+             : static_cast<T>(x + y)));
 }
 
 }  // namespace saturated
