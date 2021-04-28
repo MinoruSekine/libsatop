@@ -48,7 +48,9 @@ TYPED_TEST(AddOverflowTest, Overflow) {
 }
 
 TYPED_TEST(AddOverflowTest, NotOverflow) {
-  constexpr const auto x = TestFixture::Limits::max() - 2;
+  constexpr const auto x =
+      static_cast<typename TestFixture::test_target_t>(
+          TestFixture::Limits::max() - 2);
   constexpr const decltype(x) y = 1;
   EXPECT_EQ(x + y, saturated::add(x, y));
   EXPECT_EQ(x + y, saturated::add(y, x));
