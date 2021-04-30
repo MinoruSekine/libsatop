@@ -19,12 +19,11 @@ because all implementations are available in header files.
 
 ## Usage
 
-## Build samples and unit tests
+## Build
 
 Makefile of libsatop will provide followings on your environments
 
 - Build and run unit tests
-- Build and run sample programs
 - Some checks
   - Coding rule check by cpplint
   - Static analysis by cppcheck
@@ -35,8 +34,7 @@ Makefile of libsatop will provide followings on your environments
 | `make` target | How it works |
 ----|----
 | `all` | Same as `build-all` |
-| `build-all` | `build-sample` and `build-test` |
-| `build-sample` | Build sample programs |
+| `build-all` | Same as `build-test` |
 | `build-test` | Build unit tests |
 | `check` | Process `cppcheck` and `cpplint` |
 | `clean` | Remove generated files |
@@ -47,8 +45,7 @@ Makefile of libsatop will provide followings on your environments
 | `doxygen` | Generate doxygen HTML documents into out/site/Doxygen |
 | `latex` | Generate doxygen LaTeX documents into out/site/Doxygen |
 | `pdf` | Generate doxygen PDF documents into out/site/Doxygen |
-| `run-all` | `run-sample` and `run-test` |
-| `run-sample` | Build (if necessary) and run sample programs |
+| `run-all` | Same as `run-test` |
 | `run-test` | Build (if necessary) and run unit tests |
 | `site` | Build tree for [project site](https://minorusekine.github.io/libsatop/) |
 
@@ -77,10 +74,6 @@ Makefile of libsatop will provide followings on your environments
 1. `make BUILD_TYPE=coverage coverage`,
    so html report is put into `out/coverage_html/`
 
-### Build and run sample programs
-
-1. `make run-sample` in this directory
-
 ### Checks
 
 Some check targets are available in build by Makefile
@@ -107,20 +100,20 @@ or
 
 ### For Windows (Visual Studio)
 
-- The solution file to build samples and tests with Visual Studio
+- The solution file to build tests with Visual Studio
   is available as build/win_vs/libsatop/libsatop.sln
 - Google Test Framework will be recovered automatically
   at opening solution file
 
 ## Environments
 
-As of 2021/04/17,
-all tests succeed and all samples are working well on following environments
+As of 2021/04/30,
+all tests succeed on following environments
 
 | OS | Compiler |
 ----|----
-| FreeBSD 12.2-STABLE | clang++ |
 | macOS Catalina 10.15.7 | g++ (symlink to clang) |
 | Ubuntu 16.04 | g++ |
 | Ubuntu 18.04 | g++ |
 | Windows Server 2016 Datacenter | Visual C++ |
+-->
