@@ -116,4 +116,3 @@ all tests succeed on following environments
 | Ubuntu 16.04 | g++ |
 | Ubuntu 18.04 | g++ |
 | Windows Server 2016 Datacenter | Visual C++ |
--->
