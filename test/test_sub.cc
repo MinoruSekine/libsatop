@@ -40,24 +40,25 @@ TYPED_TEST_SUITE(SubTest, MyTypes, );  // NOLINT
 
 TYPED_TEST(SubTest, Underflow) {
   constexpr const auto kMinValue = TestFixture::Limits::min();
-  constexpr const auto kZero = static_cast<typename TestFixture::type>(0);
-  EXPECT_EQ(kZero, saturated::sub(kZero, kMinValue));
+  constexpr const auto kLowestValue = TestFixture::Limits::lowest();
+  EXPECT_EQ(kLowestValue, saturated::sub(kLowestValue, kMinValue));
   constexpr const auto kOne  = static_cast<typename TestFixture::type>(1);
-  constexpr const auto kMinValuePlusOne =
-      static_cast<typename TestFixture::type>(kMinValue + kOne);
-  EXPECT_EQ(kZero, saturated::sub(kMinValue, kMinValuePlusOne));
+  constexpr const auto kLowestValuePlusOne =
+      static_cast<typename TestFixture::type>(kLowestValue + kOne);
+  EXPECT_EQ(kLowestValue, saturated::sub(kLowestValue, kLowestValuePlusOne));
 }
 
 TYPED_TEST(SubTest, NotUnderflow) {
-  constexpr const auto kMinValue = TestFixture::Limits::min();
+  constexpr const auto kLowestValue = TestFixture::Limits::lowest();
   constexpr const auto kZero = static_cast<typename TestFixture::type>(0);
-  EXPECT_EQ(static_cast<typename TestFixture::type>(kMinValue - kZero),
-            saturated::sub(kMinValue, kZero));
+  EXPECT_EQ(static_cast<typename TestFixture::type>(kLowestValue - kZero),
+            saturated::sub(kLowestValue, kZero));
   constexpr const auto kOne  = static_cast<typename TestFixture::type>(1);
-  constexpr const auto kMinValuePlusOne =
-      static_cast<typename TestFixture::type>(kMinValue + kOne);
-  EXPECT_EQ(static_cast<typename TestFixture::type>(kMinValuePlusOne - kZero),
-            saturated::sub(kMinValuePlusOne, kZero));
-  EXPECT_EQ(static_cast<typename TestFixture::type>(kMinValuePlusOne - kOne),
-            saturated::sub(kMinValuePlusOne, kOne));
+  constexpr const auto kLowestValuePlusOne =
+      static_cast<typename TestFixture::type>(kLowestValue + kOne);
+  EXPECT_EQ(
+      static_cast<typename TestFixture::type>(kLowestValuePlusOne - kZero),
+      saturated::sub(kLowestValuePlusOne, kZero));
+  EXPECT_EQ(static_cast<typename TestFixture::type>(kLowestValuePlusOne - kOne),
+            saturated::sub(kLowestValuePlusOne, kOne));
 }

@@ -23,7 +23,18 @@
 #error Do not include this file directly, libsatop.h instead.
 #endif
 
+#include <limits>
+
 namespace saturated {
+
+namespace impl {
+
+template <typename T>
+constexpr bool is_sub_underflow(T x, T y) {
+  return (x < std::numeric_limits<T>::lowest() + y);
+}
+
+}  // namespace impl
 
 /// Subtract 2 values with saturation.
 ///
@@ -36,7 +47,9 @@ namespace saturated {
 ///         If no underflow, returns x - y.
 template <typename T>
 constexpr T sub(T x, T y) {
-  return ((x > y) ? static_cast<T>(x - y) : static_cast<T>(0));
+  return (impl::is_sub_underflow(x, y)
+          ? std::numeric_limits<T>::lowest()
+          : static_cast<T>(x - y));
 }
 
 }  // namespace saturated
