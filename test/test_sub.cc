@@ -38,7 +38,7 @@ using MyTypes = ::testing::Types<uint8_t, uint16_t, uint32_t>;
 // cppcheck-suppress syntaxError
 TYPED_TEST_SUITE(SubTest, MyTypes, );  // NOLINT
 
-TYPED_TEST(SubTest, Saturated) {
+TYPED_TEST(SubTest, Underflow) {
   constexpr const auto kMinValue = TestFixture::Limits::min();
   constexpr const auto kZero = static_cast<typename TestFixture::type>(0);
   EXPECT_EQ(kZero, saturated::sub(kZero, kMinValue));
@@ -48,7 +48,7 @@ TYPED_TEST(SubTest, Saturated) {
   EXPECT_EQ(kZero, saturated::sub(kMinValue, kMinValuePlusOne));
 }
 
-TYPED_TEST(SubTest, NotSaturated) {
+TYPED_TEST(SubTest, NotUnderflow) {
   constexpr const auto kMinValue = TestFixture::Limits::min();
   constexpr const auto kZero = static_cast<typename TestFixture::type>(0);
   EXPECT_EQ(static_cast<typename TestFixture::type>(kMinValue - kZero),
