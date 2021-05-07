@@ -37,15 +37,16 @@ constexpr T is_add_overflow(T x, T y) {
 }
 
 template <typename T>
-constexpr auto is_add_underflow(T x, T y)
-    -> typename std::enable_if<std::is_unsigned<T>::value, T>::type {
+constexpr bool is_add_underflow(
+    T x,
+    typename std::enable_if<std::is_unsigned<T>::value, T>::type y) {
   return static_cast<void>(x), static_cast<void>(y), false;
 }
 
 template <typename T>
-constexpr auto is_add_underflow(T x, T y)
-    -> typename std::enable_if<std::is_signed<T>::value, T>::type {
-  // return (x < std::numeric_limits<T>::min() - y);
+constexpr bool is_add_underflow(
+    T x,
+    typename std::enable_if<std::is_signed<T>::value, T>::type y) {
   return ((x < 0)
           && (y < 0)
           && ((x < std::numeric_limits<T>::min() - y)

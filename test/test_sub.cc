@@ -24,40 +24,64 @@
 #include "satop.h"
 
 template <typename T>
-class SubTest
+class SubUnderflowTests
     : public ::testing::Test {
  protected:
   using type = T;
   using Limits = std::numeric_limits<T>;
 };
 
-using MyTypes = ::testing::Types<uint8_t, uint16_t, uint32_t>;
+using TypesForSubUnderflowTests = ::testing::Types<uint8_t, uint16_t, uint32_t,
+                                 int8_t, int16_t, int32_t>;
 // This strange 3rd argument omission is quick hack
 // for warning with Google Test Framework.
 // See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
 // cppcheck-suppress syntaxError
-TYPED_TEST_SUITE(SubTest, MyTypes, );  // NOLINT
+TYPED_TEST_SUITE(SubUnderflowTests, TypesForSubUnderflowTests, );  // NOLINT
 
-TYPED_TEST(SubTest, Saturated) {
-  constexpr const auto kMinValue = TestFixture::Limits::min();
-  constexpr const auto kZero = static_cast<typename TestFixture::type>(0);
-  EXPECT_EQ(kZero, saturated::sub(kZero, kMinValue));
+TYPED_TEST(SubUnderflowTests, Underflow) {
   constexpr const auto kOne  = static_cast<typename TestFixture::type>(1);
-  constexpr const auto kMinValuePlusOne =
-      static_cast<typename TestFixture::type>(kMinValue + kOne);
-  EXPECT_EQ(kZero, saturated::sub(kMinValue, kMinValuePlusOne));
+  constexpr const auto kLowestValue = TestFixture::Limits::lowest();
+  EXPECT_EQ(kLowestValue, saturated::sub(kLowestValue, kOne));
 }
 
-TYPED_TEST(SubTest, NotSaturated) {
-  constexpr const auto kMinValue = TestFixture::Limits::min();
+TYPED_TEST(SubUnderflowTests, NotUnderflow) {
+  constexpr const auto kLowestValue = TestFixture::Limits::lowest();
   constexpr const auto kZero = static_cast<typename TestFixture::type>(0);
-  EXPECT_EQ(static_cast<typename TestFixture::type>(kMinValue - kZero),
-            saturated::sub(kMinValue, kZero));
+  EXPECT_EQ(static_cast<typename TestFixture::type>(kLowestValue - kZero),
+            saturated::sub(kLowestValue, kZero));
   constexpr const auto kOne  = static_cast<typename TestFixture::type>(1);
-  constexpr const auto kMinValuePlusOne =
-      static_cast<typename TestFixture::type>(kMinValue + kOne);
-  EXPECT_EQ(static_cast<typename TestFixture::type>(kMinValuePlusOne - kZero),
-            saturated::sub(kMinValuePlusOne, kZero));
-  EXPECT_EQ(static_cast<typename TestFixture::type>(kMinValuePlusOne - kOne),
-            saturated::sub(kMinValuePlusOne, kOne));
+  constexpr const auto kLowestValuePlusOne =
+      static_cast<typename TestFixture::type>(kLowestValue + kOne);
+  EXPECT_EQ(
+      static_cast<typename TestFixture::type>(kLowestValuePlusOne - kZero),
+      saturated::sub(kLowestValuePlusOne, kZero));
+  EXPECT_EQ(static_cast<typename TestFixture::type>(kLowestValuePlusOne - kOne),
+            saturated::sub(kLowestValuePlusOne, kOne));
+}
+
+template <typename T>
+class SubOverflowTests
+    : public ::testing::Test {
+ protected:
+  using type = T;
+  using Limits = std::numeric_limits<T>;
+};
+
+using TypesForSubOverflowTests = ::testing::Types<int8_t, int16_t, int32_t>;
+// This strange 3rd argument omission is quick hack
+// for warning with Google Test Framework.
+// See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
+TYPED_TEST_SUITE(SubOverflowTests, TypesForSubOverflowTests, );  // NOLINT
+
+TYPED_TEST(SubOverflowTests, Overflow) {
+  constexpr const auto kOne  = static_cast<typename TestFixture::type>(1);
+  constexpr const auto kLowestValue = TestFixture::Limits::lowest();
+  constexpr const auto kMaxValue = TestFixture::Limits::max();
+  EXPECT_EQ(kMaxValue, saturated::sub(kOne, kLowestValue));
+}
+
+TYPED_TEST(SubOverflowTests, NotOverflow) {
+  constexpr const auto kMinusOne = static_cast<typename TestFixture::type>(-1);
+  EXPECT_EQ(kMinusOne - kMinusOne, saturated::sub(kMinusOne, kMinusOne));
 }
