@@ -66,8 +66,10 @@ constexpr bool is_sub_overflow(T x, T y) {
 /// @param x Subtract from this value
 /// @param y Subtract this value
 ///
-/// @return If subtraction results causes underflow, returns min of T.
-///         If no underflow, returns x - y.
+///
+/// @return If subtraction results causes overflow, returns max of T.
+///         If underflow, returns min(lowest) of T.
+///         If no overflow and no underflow, returns x + y.
 template <typename T>
 constexpr T sub(T x, T y) {
   return (impl::is_sub_underflow(x, y)

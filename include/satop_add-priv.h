@@ -67,7 +67,8 @@ constexpr bool is_add_underflow(
 /// @param y A value to add
 ///
 /// @return If addition results causes overflow, returns max of T.
-///         If no overflow, returns x + y.
+///         If underflow, returns min(lowest) of T.
+///         If no overflow and no underflow, returns x + y.
 template <typename T>
 constexpr T add(T x, T y) {
   using limits = std::numeric_limits<T>;
