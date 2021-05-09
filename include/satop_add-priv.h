@@ -55,6 +55,10 @@ constexpr bool is_add_underflow(
 
 }  // namespace impl
 
+/// @addtogroup libsatop
+///
+/// @{
+
 /// Add 2 values with saturation.
 ///
 /// @tparam T Type of arguments and the return value
@@ -73,6 +77,8 @@ constexpr T add(T x, T y) {
              ? limits::min()
              : static_cast<T>(x + y)));
 }
+
+/// @}
 
 }  // namespace saturated
 

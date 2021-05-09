@@ -55,6 +55,10 @@ constexpr bool is_sub_overflow(T x, T y) {
 
 }  // namespace impl
 
+/// @addtogroup libsatop
+///
+/// @{
+
 /// Subtract 2 values with saturation.
 ///
 /// @tparam T Type of arguments and the return value
@@ -72,6 +76,8 @@ constexpr T sub(T x, T y) {
              ? std::numeric_limits<T>::max()
              : static_cast<T>(x - y)));
 }
+
+/// @}
 
 }  // namespace saturated
 
