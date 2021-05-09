@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "libsatop", "index.html", [
+    [ "Modules", "modules.html", "modules" ],
     [ "Files", null, [
       [ "File List", "files.html", "files" ]
     ] ]
