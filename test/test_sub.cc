@@ -32,7 +32,7 @@ class SubUnderflowTests
 };
 
 using TypesForSubUnderflowTests = ::testing::Types<uint8_t, uint16_t, uint32_t,
-                                 int8_t, int16_t, int32_t>;
+                                                   int8_t, int16_t, int32_t>;
 // This strange 3rd argument omission is quick hack
 // for warning with Google Test Framework.
 // See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
