@@ -92,6 +92,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gab426f597fe272ca5087ba35fcd1592ef"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gab426f597fe272ca5087ba35fcd1592ef"><td class="memTemplItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__libsatop.html#gab426f597fe272ca5087ba35fcd1592ef">saturated::add</a> (T x, T y)</td></tr>
 <tr class="separator:gab426f597fe272ca5087ba35fcd1592ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga251f04b75ca84b4e58f63f1e2688d46f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga251f04b75ca84b4e58f63f1e2688d46f"><td class="memTemplItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__libsatop.html#ga251f04b75ca84b4e58f63f1e2688d46f">saturated::mul</a> (T x, T y)</td></tr>
+<tr class="separator:ga251f04b75ca84b4e58f63f1e2688d46f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2ae35efb3ce9c4ece8ddf539f0b11892"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga2ae35efb3ce9c4ece8ddf539f0b11892"><td class="memTemplItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__libsatop.html#ga2ae35efb3ce9c4ece8ddf539f0b11892">saturated::sub</a> (T x, T y)</td></tr>
 <tr class="separator:ga2ae35efb3ce9c4ece8ddf539f0b11892"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +143,51 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>If addition results causes overflow, returns max of T. If underflow, returns min(lowest) of T. If no overflow and no underflow, returns x + y. </dd></dl>
+
+</div>
+</div>
+<a id="ga251f04b75ca84b4e58f63f1e2688d46f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga251f04b75ca84b4e58f63f1e2688d46f">&#9670;&nbsp;</a></span>mul()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr T saturated::mul </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Multiply 2 values with saturation.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of arguments and the return value</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>A value to multiply </td></tr>
+    <tr><td class="paramname">y</td><td>A value to multiply</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>If multiply results causes overflow, returns max of T. If underflow, returns min(lowest) of T. If no overflow and no underflow, returns x + y. </dd></dl>
 
 </div>
 </div>
