@@ -16,18 +16,26 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with libsatop.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef INCLUDE_SATOP_H_
-#define INCLUDE_SATOP_H_
+#ifndef INCLUDE_SATOP_SIGN_UTIL_PRIV_H_
+#define INCLUDE_SATOP_SIGN_UTIL_PRIV_H_
 
-#include <string>
+#ifndef SATOP_INTERNAL
+#error Do not include this file directly, libsatop.h instead.
+#endif
+
 #include <type_traits>
 
-#define SATOP_INTERNAL
+namespace saturated {
 
-#include "satop_add-priv.h"
-#include "satop_mul-priv.h"
-#include "satop_sub-priv.h"
+namespace impl {
 
-#undef SATOP_INTERNAL
+template <typename T>
+constexpr bool csignbit(T value) {
+  return (std::is_signed<T>::value && (value < 0));
+}
 
-#endif  // INCLUDE_SATOP_H_
+}  // namespace impl
+
+}  // namespace saturated
+
+#endif  // INCLUDE_SATOP_SIGN_UTIL_PRIV_H_
