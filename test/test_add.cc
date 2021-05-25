@@ -57,20 +57,21 @@ TYPED_TEST(AddOverflowTest, NotOverflow) {
 }
 
 template <typename T>
-class AddUnderflowTest
+class AddSignedUnderflowTest
     : public ::testing::Test {
  protected:
   using Limits = std::numeric_limits<T>;
   using test_target_t = T;
 };
 
-using TypesForUnderflowTests = ::testing::Types<int8_t, int16_t, int32_t>;
+using TypesForSignedUnderflowTests = ::testing::Types<int8_t, int16_t, int32_t>;
 // This strange 3rd argument omission is quick hack
 // for warning with Google Test Framework.
 // See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
-TYPED_TEST_SUITE(AddUnderflowTest, TypesForUnderflowTests, );  // NOLINT
+TYPED_TEST_SUITE(AddSignedUnderflowTest,
+                 TypesForSignedUnderflowTests, );  // NOLINT
 
-TYPED_TEST(AddUnderflowTest, Underflow) {
+TYPED_TEST(AddSignedUnderflowTest, Underflow) {
   constexpr const auto kLowest = TestFixture::Limits::lowest();
   constexpr const typename TestFixture::test_target_t kMinusOne(-1);
   EXPECT_EQ(kLowest, saturated::add(kLowest, kMinusOne));
@@ -78,7 +79,7 @@ TYPED_TEST(AddUnderflowTest, Underflow) {
   EXPECT_EQ(kLowest, saturated::add(kLowest, kLowest));
 }
 
-TYPED_TEST(AddUnderflowTest, NotUnderflow) {
+TYPED_TEST(AddSignedUnderflowTest, NotUnderflow) {
   constexpr const typename TestFixture::test_target_t kMinusOne(-1);
   EXPECT_EQ(
       static_cast<typename TestFixture::test_target_t>(kMinusOne + kMinusOne),
