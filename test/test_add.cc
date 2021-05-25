@@ -85,3 +85,32 @@ TYPED_TEST(AddSignedUnderflowTest, NotUnderflow) {
       static_cast<typename TestFixture::test_target_t>(kMinusOne + kMinusOne),
       saturated::add(kMinusOne, kMinusOne));
 }
+
+template <typename T>
+class AddUnsignedUnderflowTest
+    : public ::testing::Test {
+ protected:
+  using Limits = std::numeric_limits<T>;
+  using test_target_t = T;
+};
+
+using TypesForUnsignedUnderflowTests =
+    ::testing::Types<uint8_t, uint16_t, uint32_t>;
+// This strange 3rd argument omission is quick hack
+// for warning with Google Test Framework.
+// See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
+TYPED_TEST_SUITE(AddUnsignedUnderflowTest,
+                 TypesForUnsignedUnderflowTests, );  // NOLINT
+
+TYPED_TEST(AddUnsignedUnderflowTest, NotUnderflow) {
+  constexpr const typename TestFixture::test_target_t kZero(0);
+  constexpr const typename TestFixture::test_target_t kOne(1);
+  EXPECT_EQ(static_cast<typename TestFixture::test_target_t>(kZero + kZero),
+            saturated::add(kZero, kZero));
+  EXPECT_EQ(static_cast<typename TestFixture::test_target_t>(kOne + kZero),
+            saturated::add(kOne, kZero));
+  EXPECT_EQ(static_cast<typename TestFixture::test_target_t>(kZero + kOne),
+            saturated::add(kZero, kOne));
+  EXPECT_EQ(static_cast<typename TestFixture::test_target_t>(kOne + kOne),
+            saturated::add(kOne, kOne));
+}
