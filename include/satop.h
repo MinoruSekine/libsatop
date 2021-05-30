@@ -25,6 +25,7 @@
 #define SATOP_INTERNAL
 
 #include "satop_add-priv.h"
+#include "satop_div-priv.h"
 #include "satop_mul-priv.h"
 #include "satop_sub-priv.h"
 
