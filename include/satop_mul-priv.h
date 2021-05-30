@@ -44,7 +44,6 @@ constexpr bool is_mul_underflow(T x, T y) {
               || (y < std::numeric_limits<T>::lowest() / x)));
 }
 
-
 }  // namespace impl
 
 /// @addtogroup libsatop
