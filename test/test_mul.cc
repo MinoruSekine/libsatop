@@ -39,7 +39,7 @@ T GetRootOfMax() {
 }  // namespace
 
 template <typename T>
-class AddOverflowTest
+class MulOverflowTest
     : public ::testing::Test {
  protected:
   using Limits = std::numeric_limits<T>;
@@ -52,9 +52,9 @@ using TypesForOverflowTests = ::testing::Types<uint8_t, uint16_t, uint32_t,
 // for warning with Google Test Framework.
 // See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
 // cppcheck-suppress syntaxError
-TYPED_TEST_SUITE(AddOverflowTest, TypesForOverflowTests, );  // NOLINT
+TYPED_TEST_SUITE(MulOverflowTest, TypesForOverflowTests, );  // NOLINT
 
-TYPED_TEST(AddOverflowTest, Overflow) {
+TYPED_TEST(MulOverflowTest, Overflow) {
   constexpr const auto kMaxValue = TestFixture::Limits::max();
   constexpr const typename TestFixture::test_target_t kTwo(2);
   EXPECT_EQ(kMaxValue, saturated::mul(kMaxValue, kTwo));
@@ -67,7 +67,7 @@ TYPED_TEST(AddOverflowTest, Overflow) {
   EXPECT_EQ(kMaxValue, saturated::mul(kRootOfMaxPlus1, kRootOfMaxPlus1));
 }
 
-TYPED_TEST(AddOverflowTest, NotOverflow) {
+TYPED_TEST(MulOverflowTest, NotOverflow) {
   constexpr const auto kMaxValue = TestFixture::Limits::max();
   constexpr const typename TestFixture::test_target_t kOne(1);
   EXPECT_EQ(kMaxValue, saturated::mul(kMaxValue, kOne));
