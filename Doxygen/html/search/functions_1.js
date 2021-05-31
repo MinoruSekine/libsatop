@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mul',['mul',['../group__libsatop.html#ga251f04b75ca84b4e58f63f1e2688d46f',1,'saturated']]]
+  ['div',['div',['../group__libsatop.html#ga921d469d34fc76109d8f17b4016fbd5f',1,'saturated']]]
 ];
