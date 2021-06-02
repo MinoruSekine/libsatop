@@ -30,7 +30,7 @@ namespace saturated {
 namespace impl {
 
 template <typename T>
-constexpr T is_add_overflow(T x, T y) {
+constexpr bool is_add_overflow(T x, T y) {
   return ((x > 0)
           && (y > 0)
           && (x >= std::numeric_limits<T>::max() - y));
