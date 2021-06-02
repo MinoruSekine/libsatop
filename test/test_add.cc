@@ -114,3 +114,75 @@ TYPED_TEST(AddUnsignedUnderflowTest, NotUnderflow) {
   EXPECT_EQ(static_cast<typename TestFixture::test_target_t>(kOne + kOne),
             saturated::add(kOne, kOne));
 }
+
+template <typename T>
+class AddFloatingOverflowTest
+    : public ::testing::Test {
+ protected:
+  using Limits = std::numeric_limits<T>;
+  using test_target_t = T;
+};
+
+using TypesForFloatingOverflowTest = ::testing::Types<float, double>;
+// This strange 3rd argument omission is quick hack
+// for warning with Google Test Framework.
+// See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
+TYPED_TEST_SUITE(AddFloatingOverflowTest,
+                 TypesForFloatingOverflowTest, );  // NOLINT
+
+TYPED_TEST(AddFloatingOverflowTest, NotOverflow) {
+  constexpr const typename TestFixture::test_target_t kMax =
+      TestFixture::Limits::max();
+  constexpr const typename TestFixture::test_target_t kZero(0);
+  EXPECT_DOUBLE_EQ(static_cast<double>(kMax + kZero),
+                   static_cast<double>(saturated::add(kMax, kZero)));
+  EXPECT_DOUBLE_EQ(static_cast<double>(kZero + kMax),
+                   static_cast<double>(saturated::add(kZero, kMax)));
+}
+
+TYPED_TEST(AddFloatingOverflowTest, Overflow) {
+  constexpr const typename TestFixture::test_target_t kMax =
+      TestFixture::Limits::max();
+  constexpr const typename TestFixture::test_target_t kMin =
+      TestFixture::Limits::min();
+  EXPECT_DOUBLE_EQ(static_cast<double>(kMax),
+                   static_cast<double>(saturated::add(kMax, kMin)));
+  EXPECT_DOUBLE_EQ(static_cast<double>(kMax),
+                   static_cast<double>(saturated::add(kMin, kMax)));
+}
+
+template <typename T>
+class AddFloatingUnderflowTest
+    : public ::testing::Test {
+ protected:
+  using Limits = std::numeric_limits<T>;
+  using test_target_t = T;
+};
+
+using TypesForFloatingUnderflowTest = ::testing::Types<float, double>;
+// This strange 3rd argument omission is quick hack
+// for warning with Google Test Framework.
+// See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
+TYPED_TEST_SUITE(AddFloatingUnderflowTest,
+                 TypesForFloatingUnderflowTest, );  // NOLINT
+
+TYPED_TEST(AddFloatingUnderflowTest, NotUnderflow) {
+  constexpr const typename TestFixture::test_target_t kLowest =
+      TestFixture::Limits::lowest();
+  constexpr const typename TestFixture::test_target_t kZero(0);
+  EXPECT_DOUBLE_EQ(static_cast<double>(kLowest + kZero),
+                   static_cast<double>(saturated::add(kLowest, kZero)));
+  EXPECT_DOUBLE_EQ(static_cast<double>(kZero + kLowest),
+                   static_cast<double>(saturated::add(kZero, kLowest)));
+}
+
+TYPED_TEST(AddFloatingUnderflowTest, Underflow) {
+  constexpr const typename TestFixture::test_target_t kLowest =
+      TestFixture::Limits::lowest();
+  constexpr const typename TestFixture::test_target_t kNegativeMax =
+      -TestFixture::Limits::min();
+  EXPECT_DOUBLE_EQ(static_cast<double>(kLowest),
+                   static_cast<double>(saturated::add(kLowest, kNegativeMax)));
+  EXPECT_DOUBLE_EQ(static_cast<double>(kLowest),
+                   static_cast<double>(saturated::add(kNegativeMax, kLowest)));
+}
