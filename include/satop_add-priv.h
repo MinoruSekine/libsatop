@@ -30,7 +30,7 @@ namespace saturated {
 namespace impl {
 
 template <typename T>
-constexpr T is_add_overflow(T x, T y) {
+constexpr bool is_add_overflow(T x, T y) {
   return ((x > 0)
           && (y > 0)
           && (x >= std::numeric_limits<T>::max() - y));
@@ -49,8 +49,8 @@ constexpr bool is_add_underflow(
     typename std::enable_if<std::is_signed<T>::value, T>::type y) {
   return ((x < 0)
           && (y < 0)
-          && ((x < std::numeric_limits<T>::min() - y)
-              || (y < std::numeric_limits<T>::min() - x)));
+          && ((x < std::numeric_limits<T>::lowest() - y)
+              || (y < std::numeric_limits<T>::lowest() - x)));
 }
 
 }  // namespace impl
@@ -75,7 +75,7 @@ constexpr T add(T x, T y) {
   return (impl::is_add_overflow(x, y)
           ? limits::max()
           : (impl::is_add_underflow(x, y)
-             ? limits::min()
+             ? limits::lowest()
              : static_cast<T>(x + y)));
 }
 
