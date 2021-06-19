@@ -85,3 +85,83 @@ TYPED_TEST(SubOverflowTests, NotOverflow) {
   constexpr const auto kMinusOne = static_cast<typename TestFixture::type>(-1);
   EXPECT_EQ(kMinusOne - kMinusOne, saturated::sub(kMinusOne, kMinusOne));
 }
+
+template <typename T>
+class SubFloatingOverflowTest
+    : public ::testing::Test {
+ protected:
+  using Limits = std::numeric_limits<T>;
+  using test_target_t = T;
+};
+
+using TypesForFloatingOverflowTest = ::testing::Types<float, double>;
+// This strange 3rd argument omission is quick hack
+// for warning with Google Test Framework.
+// See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
+TYPED_TEST_SUITE(SubFloatingOverflowTest,
+                 TypesForFloatingOverflowTest, );  // NOLINT
+
+TYPED_TEST(SubFloatingOverflowTest, NotOverflow) {
+  constexpr const typename TestFixture::test_target_t kMax =
+      TestFixture::Limits::max();
+  constexpr const typename TestFixture::test_target_t kZero(0);
+  EXPECT_DOUBLE_EQ(static_cast<double>(kMax - kZero),
+                   static_cast<double>(saturated::sub(kMax, kZero)));
+  EXPECT_DOUBLE_EQ(static_cast<double>(kZero - kMax),
+                   static_cast<double>(saturated::sub(kZero, kMax)));
+  constexpr const typename TestFixture::test_target_t kHalfLowest =
+      TestFixture::Limits::lowest() / typename TestFixture::test_target_t(2.0f);
+  EXPECT_DOUBLE_EQ(static_cast<double>(kZero - kHalfLowest),
+                   static_cast<double>(saturated::sub(kZero, kHalfLowest)));
+}
+
+TYPED_TEST(SubFloatingOverflowTest, Overflow) {
+  constexpr const typename TestFixture::test_target_t kMax =
+      TestFixture::Limits::max();
+  constexpr const typename TestFixture::test_target_t kMinusMin =
+      -TestFixture::Limits::min();
+  EXPECT_DOUBLE_EQ(static_cast<double>(kMax),
+                   static_cast<double>(saturated::sub(kMax, kMinusMin)));
+  constexpr const typename TestFixture::test_target_t kLowest =
+      TestFixture::Limits::lowest();
+  EXPECT_DOUBLE_EQ(static_cast<double>(kMax),
+                   static_cast<double>(saturated::sub(kMax, kLowest)));
+}
+
+template <typename T>
+class SubFloatingUnderflowTest
+    : public ::testing::Test {
+ protected:
+  using Limits = std::numeric_limits<T>;
+  using test_target_t = T;
+};
+
+using TypesForFloatingUnderflowTest = ::testing::Types<float, double>;
+// This strange 3rd argument omission is quick hack
+// for warning with Google Test Framework.
+// See https://github.com/google/googletest/issues/2271#issuecomment-665742471 .
+TYPED_TEST_SUITE(SubFloatingUnderflowTest,
+                 TypesForFloatingUnderflowTest, );  // NOLINT
+
+TYPED_TEST(SubFloatingUnderflowTest, NotUnderflow) {
+  constexpr const typename TestFixture::test_target_t kLowest =
+      TestFixture::Limits::lowest();
+  constexpr const typename TestFixture::test_target_t kZero(0);
+  EXPECT_DOUBLE_EQ(static_cast<double>(kLowest - kZero),
+                   static_cast<double>(saturated::sub(kLowest, kZero)));
+  EXPECT_DOUBLE_EQ(static_cast<double>(kZero - kLowest),
+                   static_cast<double>(saturated::sub(kZero, kLowest)));
+}
+
+TYPED_TEST(SubFloatingUnderflowTest, Underflow) {
+  constexpr const typename TestFixture::test_target_t kLowest =
+      TestFixture::Limits::lowest();
+  constexpr const typename TestFixture::test_target_t kMin =
+      TestFixture::Limits::min();
+  EXPECT_DOUBLE_EQ(static_cast<double>(kLowest),
+                   static_cast<double>(saturated::sub(kLowest, kMin)));
+  constexpr const typename TestFixture::test_target_t kMax =
+      TestFixture::Limits::max();
+  EXPECT_DOUBLE_EQ(static_cast<double>(kLowest),
+                   static_cast<double>(saturated::sub(kLowest, kMax)));
+}
