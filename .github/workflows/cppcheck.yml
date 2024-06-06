@@ -18,7 +18,7 @@ jobs:
       CPPCHECK_MAKE_OPTIONS: -k -j MATCHCOMPILER=yes FILESDIR=/usr/share/cppcheck HAVE_RULES=yes CXXFLAGS='-O2 -DNDEBUG -Wall -Wno-sign-compare -Wno-unused-function'
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Cache cppcheck (Ubuntu)
         if: contains(matrix.os, 'ubuntu')
