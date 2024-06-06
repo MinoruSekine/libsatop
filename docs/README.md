@@ -2,7 +2,7 @@
 
 libsatop is a Library for saturated arithmetic operation by C++11.
 
-![](https://github.com/MinoruSekine/libsatop/workflows/Check%20build/badge.svg?branch=main)
+![](https://github.com/MinoruSekine/libsatop/actions/workflows/check_build.yml/badge.svg?branch=main)
 
 ## API Reference
 
