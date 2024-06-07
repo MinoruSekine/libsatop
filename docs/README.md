@@ -2,7 +2,7 @@
 
 libsatop is a Library for saturated arithmetic operation by C++11.
 
-![](https://github.com/MinoruSekine/libsatop/workflows/Check%20build/badge.svg?branch=main)
+![](https://github.com/MinoruSekine/libsatop/actions/workflows/check_build.yml/badge.svg?branch=main)
 
 ## API Reference
 
@@ -25,14 +25,14 @@ Makefile of libsatop will provide followings on your environments
 
 - Build and run unit tests
 - Some checks
-  - Coding rule check by cpplint
-  - Static analysis by cppcheck
+   - Coding rule check by cpplint
+   - Static analysis by cppcheck
 - Build documents with Doxygen
 
 ### List of build targets
 
 | `make` target | How it works |
-----|----
+| ---- | ---- |
 | `all` | Same as `build-all` |
 | `build-all` | Same as `build-test` |
 | `build-test` | Build unit tests |
@@ -54,7 +54,7 @@ Makefile of libsatop will provide followings on your environments
 #### `BUILD_TYPE`
 
 | `BUILD_TYPE` | How it works |
-----|----
+| ---- | ---- |
 | `debug` | All optimizations are disabled in build |
 | `release` | Optimizations are enabled in build |
 | `coverage` | Options for build `coverage` as `make` target |
@@ -111,7 +111,7 @@ As of 2021/04/30,
 all tests succeed on following environments
 
 | OS | Compiler |
-----|----
+| ---- | ---- |
 | macOS Catalina 10.15.7 | g++ (symlink to clang) |
 | Ubuntu 16.04 | g++ |
 | Ubuntu 18.04 | g++ |
